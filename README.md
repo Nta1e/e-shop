@@ -1,5 +1,6 @@
 # Turing Back End Challenge
-To complete this challenge, you need to ensure all route returns a similar response object as described in our API guide. To achieve this goal, you will have to fix the existing bugs, implement the incomplete functions, and add test cases for the main functions of the system.
+[![Build Status](https://travis-ci.com/Nta1e/Turing_backend_challenge.svg?token=QAfgj3KstfQjsmX6MRX8&branch=dev)](https://travis-ci.com/Nta1e/Turing_backend_challenge)
+
 
 ## Getting started
 

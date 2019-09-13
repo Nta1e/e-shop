@@ -1,0 +1,13 @@
+language: python
+python:
+  - '3.7'
+cache: pip
+services:
+  - mysql
+before_install:
+  - mysql -e 'CREATE DATABASE turing_db;'
+  - cd src
+install:
+  - pip install -r requirements.txt
+script:
+  - python manage.py test
