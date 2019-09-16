@@ -5,7 +5,11 @@
 #   * Make sure each ForeignKey and OneToOneField has `on_delete` set to the desired behavior
 #   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
+import re
 from django.db import models
+from django.contrib.auth.base_user import BaseUserManager
+from django.contrib.auth.hashers import make_password, check_password
+from api import errors
 
 
 class Attribute(models.Model):
@@ -53,11 +57,32 @@ class Category(models.Model):
         db_table = 'category'
 
 
+class CustomerManager(BaseUserManager):
+
+    def create_customer(self, *args, **kwargs):
+        email = kwargs.get('email', None)
+        normalized_email = self.normalize_email(email)
+        if not re.match(r"[^@]+@[^@]+\.[^@]+", normalized_email):
+            errors.handle(errors.USR_03)
+        try:
+            customer = self.model.objects.get(email=normalized_email)
+            if customer:
+                errors.handle(errors.USR_04)
+        except self.model.DoesNotExist:
+            kwargs.pop('email', None)
+            password = kwargs.pop('password', None)
+            customer = self.model(email=normalized_email, **kwargs)
+            if password is not None:
+                customer.set_password(password)
+            customer.save()
+            return customer
+
+
 class Customer(models.Model):
     customer_id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=50)
-    email = models.CharField(unique=True, max_length=100)
-    password = models.CharField(max_length=100)
+    name = models.CharField(max_length=50, default='')
+    email = models.CharField(unique=True, max_length=100, default='')
+    password = models.CharField(max_length=100, default='')
     credit_card = models.TextField(blank=True, null=True)
     address_1 = models.CharField(max_length=100, blank=True, null=True)
     address_2 = models.CharField(max_length=100, blank=True, null=True)
@@ -65,10 +90,31 @@ class Customer(models.Model):
     region = models.CharField(max_length=100, blank=True, null=True)
     postal_code = models.CharField(max_length=100, blank=True, null=True)
     country = models.CharField(max_length=100, blank=True, null=True)
-    shipping_region_id = models.IntegerField()
+    shipping_region_id = models.IntegerField(default=1)
     day_phone = models.CharField(max_length=100, blank=True, null=True)
     eve_phone = models.CharField(max_length=100, blank=True, null=True)
     mob_phone = models.CharField(max_length=100, blank=True, null=True)
+
+    is_active = True
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = []
+
+    objects = CustomerManager()
+
+    def set_password(self, raw_password):
+        self.password = make_password(raw_password)
+
+    @property
+    def is_anonymous(self):
+        return False
+
+    @property
+    def is_authenticated(self):
+        return True
+
+    def check_password(self, raw_password):
+        return check_password(raw_password, self.password)
 
     class Meta:
         managed = False

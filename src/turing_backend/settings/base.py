@@ -35,10 +35,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'api',
-    'drf_yasg',
-    'oauth2_provider',
-    'social_django',
-    # 'rest_framework_social_oauth2',
+    'drf_yasg'
 ]
 
 MIDDLEWARE = [
@@ -154,32 +151,11 @@ REST_FRAMEWORK = {
 
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=50)
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=50),
+    'USER_ID_FIELD':'customer_id'
 }
 
-# Facebook configuration
-SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/'
 
-# Define SOCIAL_AUTH_FACEBOOK_SCOPE to get extra permissions from facebook. Email is not sent by default,
-# to get it, you must request the email permission:
-SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
-SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {'fields': 'id, name, email'}
-FACEBOOK_EXTENDED_PERMISSIONS = ['email']
-SOCIAL_AUTH_ADMIN_USER_SEARCH_FIELDS = ['username', 'first_name', 'email']
-SOCIAL_AUTH_USERNAME_IS_FULL_EMAIL = True
-
-SOCIAL_AUTH_PIPELINE = (
-    'social_core.pipeline.social_auth.social_details',
-    'social_core.pipeline.social_auth.social_uid',
-    'social_core.pipeline.social_auth.auth_allowed',
-    'social_core.pipeline.social_auth.social_user',
-    'social_core.pipeline.user.get_username',
-    'social_core.pipeline.social_auth.associate_by_email',
-    'social_core.pipeline.user.create_user',
-    'social_core.pipeline.social_auth.associate_user',
-    'social_core.pipeline.social_auth.load_extra_data',
-    'social_core.pipeline.user.user_details',
-)
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
@@ -203,3 +179,5 @@ WEBHOOK = {
     "url": "https://example.com/my/webhook/endpoint",
     "enabled_events": ['charge.failed', 'charge.succeeded']
 }
+
+AUTH_USER_MODEL = 'api.Customer'

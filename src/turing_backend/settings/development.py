@@ -1,3 +1,4 @@
+import sys
 from os import getenv
 from dotenv import load_dotenv
 from .base import *
@@ -20,6 +21,3 @@ DATABASES = {
         'PORT': getenv('DB_PORT', '3306'),
     }
 }
-
-SOCIAL_AUTH_FACEBOOK_KEY = '860025437682601'
-SOCIAL_AUTH_FACEBOOK_SECRET = 'c9e546a49cfe53c030faf43adb83765c'

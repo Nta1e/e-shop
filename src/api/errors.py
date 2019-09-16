@@ -1,4 +1,4 @@
-from rest_framework.response import Response
+from rest_framework.exceptions import ValidationError, NotFound, NotAuthenticated, APIException
 
 
 class Error:
@@ -74,4 +74,11 @@ def handle(error: Error):
         "message": error.message,
         "field": error.field
     }}
-    return Response(error_response, status=error.status)
+    if error.status == 400:
+        raise ValidationError(error_response)
+    elif error.status == 404:
+        raise NotFound(error_response)
+    elif error.status == 401:
+        raise NotAuthenticated(error_response)
+    else:
+        raise APIException(error_response)

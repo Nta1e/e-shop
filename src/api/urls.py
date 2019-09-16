@@ -6,7 +6,7 @@ from rest_framework import routers
 from api.viewsets.attribute import AttributeViewSet
 #from api.viewsets.category import CategoryViewSet 
 # TODO: Implement category
-from api.viewsets.customers import create_customer, token_obtain_pair, SocialLoginView, update_address, \
+from api.viewsets.customers import CreateCustomer, token_obtain_pair, SocialLoginView, update_address, \
     update_credit_card, customer, update_customer
 from api.viewsets.department import DepartmentViewSet
 from api.viewsets.orders import create_order, order, orders, order_details
@@ -40,9 +40,9 @@ urlpatterns = [
     path('customer', customer),
     path('customer/update', update_customer),
 
-    path('customers', create_customer, name="Create a customer"),
-    path('customers/login', token_obtain_pair, name="Create a customer"),
-    path('customers/facebook', SocialLoginView.as_view()),
+    path('customers', CreateCustomer.as_view(), name="create_customer"),
+    path('customers/login', token_obtain_pair, name="login_customer"),
+    path('customers/facebook', SocialLoginView.as_view(), name="facebook_login"),
     path('customers/address', update_address),
     path('customers/creditCard', update_credit_card),
 

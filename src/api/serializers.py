@@ -54,7 +54,7 @@ class ProductSerializer(serializers.ModelSerializer):
 class CustomerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Customer
-        fields = '__all__'
+        exclude = ('password',)
 
 
 class OrdersSerializer(serializers.ModelSerializer):
@@ -111,12 +111,6 @@ class ShippingRegionSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class CreateCustomerSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Customer
-        fields = ('name', 'email', 'password')
-
-
 class UpdateCustomerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Customer
@@ -126,15 +120,14 @@ class UpdateCustomerSerializer(serializers.ModelSerializer):
 class TokenObtainPairPatchedSerializer(TokenObtainPairSerializer):
 
     def validate(self, attrs):
-        data = super().validate(attrs)
+        super().validate(attrs)
         refresh = self.get_token(self.user)
-        if hasattr(self.user, 'customer'):
-            data['customer'] = CustomerSerializer(self.user.customer).data
-        data['access'] = str(refresh.access_token)
-        data['expires_in'] = "24h"
-        data.pop('refresh')
-
-        return data
+        return_data = {
+            'customer': CustomerSerializer(self.user).data,
+            'access': str(refresh.access_token),
+            'expires_in': "24h"
+        }
+        return return_data
 
 
 class SocialSerializer(serializers.Serializer):
