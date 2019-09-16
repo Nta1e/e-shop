@@ -8,7 +8,7 @@
 import re
 from django.db import models
 from django.contrib.auth.base_user import BaseUserManager
-from django.contrib.auth.hashers import make_password, check_password
+from django.contrib.auth.hashers import make_password, check_password as _check_password
 from api import errors
 
 
@@ -114,10 +114,10 @@ class Customer(models.Model):
         return True
 
     def check_password(self, raw_password):
-        return check_password(raw_password, self.password)
+        return _check_password(raw_password, self.password)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'customer'
 
 
