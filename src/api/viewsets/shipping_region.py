@@ -12,5 +12,6 @@ class ShippingRegionViewSet(viewsets.ReadOnlyModelViewSet):
     list: Get All ShippingRegions
     retrieve: Get ShippingRegion by ID
     """
+
     queryset = ShippingRegion.objects.all()
     serializer_class = ShippingRegionSerializer

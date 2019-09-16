@@ -12,5 +12,6 @@ class TaxViewSet(viewsets.ReadOnlyModelViewSet):
     list: Get All Taxes
     retrieve: Get Tax by ID
     """
+
     queryset = Tax.objects.all()
     serializer_class = TaxSerializer

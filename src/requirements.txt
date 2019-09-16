@@ -7,6 +7,7 @@ chardet==3.0.4
 Click==7.0
 coreapi==2.3.3
 coreschema==0.0.4
+coverage==4.5.4
 curtsies==0.3.0
 defusedxml==0.6.0
 Django==2.2.2

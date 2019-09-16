@@ -39,7 +39,7 @@ USR_05 = Error(code="USR_05", message="The email doesn't exist", _status=404, fi
 USR_06 = Error(code="USR_06", message="This is an invalid phone number", _status=400, field='phone')
 USR_07 = Error(code="USR_07", message=" is too long", _status=400)
 USR_08 = Error(code="USR_08", message="This is an invalid Credit Card", _status=400, field='credit_card')
-USR_09 = Error(code="USR_09", message="The Shipping Region ID is not number", _status=400, field='shipping_region')
+USR_09 = Error(code="USR_09", message="The Shipping Region ID is not number", _status=400, field='shipping_region_id')
 USR_10 = Error(code="USR_10", message="You must login first", _status=400)
 
 # Category's Errors

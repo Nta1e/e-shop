@@ -21,7 +21,7 @@ class Attribute(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'attribute'
+        db_table = "attribute"
 
 
 class AttributeValue(models.Model):
@@ -31,7 +31,7 @@ class AttributeValue(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'attribute_value'
+        db_table = "attribute_value"
 
 
 class Audit(models.Model):
@@ -43,7 +43,7 @@ class Audit(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'audit'
+        db_table = "audit"
 
 
 class Category(models.Model):
@@ -54,13 +54,12 @@ class Category(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'category'
+        db_table = "category"
 
 
 class CustomerManager(BaseUserManager):
-
     def create_customer(self, *args, **kwargs):
-        email = kwargs.get('email', None)
+        email = kwargs.get("email", None)
         normalized_email = self.normalize_email(email)
         if not re.match(r"[^@]+@[^@]+\.[^@]+", normalized_email):
             errors.handle(errors.USR_03)
@@ -69,8 +68,8 @@ class CustomerManager(BaseUserManager):
             if customer:
                 errors.handle(errors.USR_04)
         except self.model.DoesNotExist:
-            kwargs.pop('email', None)
-            password = kwargs.pop('password', None)
+            kwargs.pop("email", None)
+            password = kwargs.pop("password", None)
             customer = self.model(email=normalized_email, **kwargs)
             if password is not None:
                 customer.set_password(password)
@@ -80,9 +79,9 @@ class CustomerManager(BaseUserManager):
 
 class Customer(models.Model):
     customer_id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=50, default='')
-    email = models.CharField(unique=True, max_length=100, default='')
-    password = models.CharField(max_length=100, default='')
+    name = models.CharField(max_length=50, default="")
+    email = models.CharField(unique=True, max_length=100, default="")
+    password = models.CharField(max_length=100, default="")
     credit_card = models.TextField(blank=True, null=True)
     address_1 = models.CharField(max_length=100, blank=True, null=True)
     address_2 = models.CharField(max_length=100, blank=True, null=True)
@@ -97,7 +96,7 @@ class Customer(models.Model):
 
     is_active = True
 
-    USERNAME_FIELD = 'email'
+    USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
 
     objects = CustomerManager()
@@ -118,7 +117,7 @@ class Customer(models.Model):
 
     class Meta:
         managed = True
-        db_table = 'customer'
+        db_table = "customer"
 
 
 class Department(models.Model):
@@ -128,7 +127,7 @@ class Department(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'department'
+        db_table = "department"
 
 
 class OrderDetail(models.Model):
@@ -142,7 +141,7 @@ class OrderDetail(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'order_detail'
+        db_table = "order_detail"
 
 
 class Orders(models.Model):
@@ -160,7 +159,7 @@ class Orders(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'orders'
+        db_table = "orders"
 
 
 class Product(models.Model):
@@ -176,7 +175,7 @@ class Product(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'product'
+        db_table = "product"
 
 
 class ProductAttribute(models.Model):
@@ -185,8 +184,8 @@ class ProductAttribute(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'product_attribute'
-        unique_together = (('product_id', 'attribute_value_id'),)
+        db_table = "product_attribute"
+        unique_together = (("product_id", "attribute_value_id"),)
 
 
 class ProductCategory(models.Model):
@@ -195,8 +194,8 @@ class ProductCategory(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'product_category'
-        unique_together = (('product_id', 'category_id'),)
+        db_table = "product_category"
+        unique_together = (("product_id", "category_id"),)
 
 
 class Review(models.Model):
@@ -209,7 +208,7 @@ class Review(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'review'
+        db_table = "review"
 
 
 class Shipping(models.Model):
@@ -220,7 +219,7 @@ class Shipping(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'shipping'
+        db_table = "shipping"
 
 
 class ShippingRegion(models.Model):
@@ -229,7 +228,7 @@ class ShippingRegion(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'shipping_region'
+        db_table = "shipping_region"
 
 
 class ShoppingCart(models.Model):
@@ -243,7 +242,7 @@ class ShoppingCart(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'shopping_cart'
+        db_table = "shopping_cart"
 
 
 class Tax(models.Model):
@@ -253,4 +252,4 @@ class Tax(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'tax'
+        db_table = "tax"
