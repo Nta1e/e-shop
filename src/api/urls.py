@@ -21,16 +21,12 @@ from api.viewsets.orders import create_order, order, orders, order_details
 from api.viewsets.products import ProductViewSet
 from api.viewsets.shipping_region import ShippingRegionViewSet
 from api.viewsets.shoppingcart import (
-    generate_cart_id,
-    add_products,
-    get_products,
-    update_quantity,
-    empty_cart,
-    remove_product,
-    move_to_cart,
-    total_amount,
-    save_for_later,
-    get_saved_products,
+    GenerateCartID,
+    AddProducts,
+    GetProducts,
+    UpdateQuantity,
+    EmptyCart,
+    RemoveProduct
 )
 from api.viewsets.stripe import charge, webhooks
 from api.viewsets.tax import TaxViewSet
@@ -47,7 +43,6 @@ router.register(r"shipping/regions", ShippingRegionViewSet)
 
 urlpatterns = [
     path("", include(router.urls)),
-    # TODO: implement the category, shopping cart and orders
     path(
         "attributes/values/<int:attribute_id>/",
         AttributeViewSet.as_view({"get": "get_values_from_attribute"}),
@@ -71,4 +66,11 @@ urlpatterns = [
     path("customers/facebook", SocialLoginView.as_view(), name="facebook_login"),
     path("customer/address", UpdateAddress.as_view(), name="update_address"),
     path("customer/creditCard", UpdateCreditCard.as_view(), name="update_credit_card"),
+    path("shoppingcart/generateUniqueId", GenerateCartID.as_view(), name="generate_cart_id"),
+    path("shoppingcart/add", AddProducts.as_view(), name="add_products"),
+    path("shoppingcart/<str:cart_id>", GetProducts.as_view(), name="get_products_in_cart"),
+    path("shoppingcart/update/<int:item_id>", UpdateQuantity.as_view(), name="update_quantity"),
+    path("shoppingcart/empty/<str:cart_id>", EmptyCart.as_view(), name="empty_cart"),
+    path("shoppingcart/removeProduct/<int:item_id>", RemoveProduct.as_view(), name="remove_item")
+
 ]

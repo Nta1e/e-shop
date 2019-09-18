@@ -65,6 +65,8 @@ COM_10 = Error(code="COM_10", message="", _status=400)
 
 # ShoppingCart's Errors
 SHP_01 = Error(code="ORD_01", message="Don't exist shoppingCart with this cart_id", _status=404)
+SHP_02 = Error(code="SHP_02", message="The product already exists in cart", _status=400, field='product_id')
+SHP_03 = Error(code="SHP_03", message="Don't exist cartItem with this item_id", _status=404)
 
 
 def handle(error: Error):

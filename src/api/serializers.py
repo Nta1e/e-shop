@@ -71,6 +71,12 @@ class ProductSerializer(serializers.ModelSerializer):
         )
 
 
+class CartProductSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        exclude = ("description", "image_2", "thumbnail", "display")
+
+
 class CustomerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Customer
@@ -111,7 +117,7 @@ class OrdersSaveSerializer(serializers.ModelSerializer):
 class ShoppingcartSerializer(serializers.ModelSerializer):
     class Meta:
         model = ShoppingCart
-        fields = ("cart_id", "attributes", "product_id", "quantity")
+        exclude = ("buy_now", "added_on")
 
 
 class TaxSerializer(serializers.ModelSerializer):

@@ -1,129 +1,128 @@
-import uuid
+import copy
+import random
+from itertools import chain
 
+from django.db.models import F
 from django.utils import timezone
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
+from itypes import List
 from rest_framework.decorators import api_view, action
 from rest_framework.response import Response
-from rest_framework.status import HTTP_200_OK
-
+from rest_framework import generics
+from rest_framework.permissions import IsAuthenticated
 from api import errors
-from api.models import ShoppingCart
+from api.models import ShoppingCart, Product
 from api.serializers import ShoppingcartSerializer, ProductSerializer
 import logging
 
 logger = logging.getLogger(__name__)
 
 
-@api_view(["GET"])
-def generate_cart_id(request):
-    """
-    Generate the unique CART ID 
-    """
-    logger.debug("Generating cart ID")
-    return Response({"cart_id": uuid.uuid4()})
+class GenerateCartID(generics.GenericAPIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request):
+        """
+        Generate the unique CART ID
+        """
+        cart_id = random.randint(100000000, 999999999)
+        logger.debug("Generating cart ID")
+        return Response({"cart_id": str(cart_id)})
 
 
-@swagger_auto_schema(
-    method="POST",
-    request_body=openapi.Schema(
-        type=openapi.TYPE_OBJECT,
-        properties={
-            "cart_id": openapi.Schema(
-                type=openapi.TYPE_STRING, description="Cart ID.", required=["true"]
-            ),
-            "product_id": openapi.Schema(
-                type=openapi.TYPE_INTEGER, description="Product ID.", required=["true"]
-            ),
-            "attributes": openapi.Schema(
-                type=openapi.TYPE_STRING,
-                description="Attributes of Product.",
-                required=["true"],
-            ),
-        },
-    ),
-)
-@api_view(["POST"])
-def add_products(request):
-    """
-    Add a Product in the cart
-    """
-    # TODO: place the code here
+class AddProducts(generics.GenericAPIView):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = ShoppingcartSerializer
+
+    def post(self, request):
+
+        cart_id = request.data.get("cart_id")
+        shopping_cart = ShoppingCart.objects.filter(cart_id=cart_id)
+        product_id = request.data.get('product_id', None)
+        if len(shopping_cart) > 0:
+            for cart_instance in shopping_cart:
+                if cart_instance.product_id == product_id:
+                    return errors.handle(errors.SHP_02)
+
+        cart = ShoppingCart()
+        for field, value in request.data.items():
+            setattr(cart, field, value)
+
+        cart.save()
+        serializer_element = ShoppingcartSerializer(instance=cart)
+        cart_id_field = {"cart_id": int(request.data.get("cart_id"))}
+        new_dict = serializer_element.data
+        new_dict.update(cart_id_field)
+        return Response(new_dict, 201)
 
 
-@api_view(["GET"])
-def get_products(request, cart_id):
-    """
-    Get List of Products in Shopping Cart
-    """
-    # TODO: place the code here
+class GetProducts(generics.GenericAPIView):
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request, cart_id):
+
+        cart: ShoppingCart = ShoppingCart.objects.filter(cart_id=cart_id)
+        if not cart:
+            return errors.handle(errors.SHP_01)
+
+        cart_items = []
+        for product in cart:
+            pdt: Product = Product.objects.get(product_id=product.product_id)
+            _product = {
+                "item_id": product.item_id,
+                "cart_id": int(product.cart_id),
+                "name": pdt.name,
+                "attributes": product.attributes,
+                "product_id": product.product_id,
+                "image": pdt.image,
+                "price": str(pdt.price),
+                "discounted_price": str(pdt.discounted_price),
+                "quantity": product.quantity,
+                "subtotal": pdt.price*product.quantity
+            }
+            cart_items.append(_product)
+        return Response(cart_items, 200)
 
 
-@swagger_auto_schema(
-    method="PUT",
-    request_body=openapi.Schema(
-        type=openapi.TYPE_OBJECT,
-        properties={
-            "quantity": openapi.Schema(
-                type=openapi.TYPE_INTEGER,
-                description="Item Quantity.",
-                required=["true"],
-            )
-        },
-    ),
-)
-@api_view(["PUT"])
-def update_quantity(request, item_id):
-    """
-    Update the cart by item
-    """
-    logger.debug("Updating quantity")
-    # TODO: place the code here
+class UpdateQuantity(generics.GenericAPIView):
+
+    def put(self, request, item_id):
+        try:
+            cart_item = ShoppingCart.objects.get(item_id=item_id)
+            quantity = request.data.get("quantity", None)
+            if not quantity:
+                return errors.handle(errors.COM_02)
+            cart_item.quantity = request.data.get("quantity", None)
+            cart_item.save()
+            serializer_element = ShoppingcartSerializer(instance=cart_item)
+            cart_id_field = {"cart_id": int(cart_item.cart_id)}
+            new_dict = serializer_element.data
+            new_dict.update(cart_id_field)
+            return Response(new_dict, 201)
+        except ShoppingCart.DoesNotExist:
+            return errors.handle(errors.SHP_03)
 
 
-@api_view(["DELETE"])
-def empty_cart(request, cart_id):
-    """
-    Empty cart
-    """
-    # TODO: place the code here
+class EmptyCart(generics.GenericAPIView):
+    permission_classes = (IsAuthenticated,)
+
+    def delete(self, request, cart_id):
+        cart = ShoppingCart.objects.filter(cart_id=cart_id)
+        if not cart:
+            return errors.handle(errors.SHP_01)
+        for item in cart:
+            item.delete()
+        return Response([], 200)
 
 
-@api_view(["DELETE"])
-def remove_product(request, item_id):
-    """
-    Remove a product in the cart
-    """
-    # TODO: place the code here
+class RemoveProduct(generics.GenericAPIView):
+    permission_classes = (IsAuthenticated,)
 
-
-@api_view(["GET"])
-def move_to_cart(request, item_id):
-    """
-    Move a product to cart
-    """
-    # TODO: place the code here
-
-
-@api_view(["GET"])
-def total_amount(request, cart_id):
-    """
-    Return a total Amount from Cart
-    """
-    # TODO: place the code here
-
-
-@api_view(["GET"])
-def save_for_later(request, item_id):
-    """
-    Save a Product for latter
-    """
-    # TODO: place the code here
-
-
-@api_view(["GET"])
-def get_saved_products(request, cart_id):
-    """
-    Get saved Products 
-    """
-    # TODO: place the code here
+    def delete(self, request, item_id):
+        try:
+            item = ShoppingCart.objects.get(item_id=item_id)
+            item.delete()
+            return Response({"message": "Item successfully removed from cart!"})
+        except ShoppingCart.DoesNotExist:
+            return errors.handle(errors.SHP_03)

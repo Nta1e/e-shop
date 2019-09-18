@@ -237,8 +237,8 @@ class ShoppingCart(models.Model):
     product_id = models.IntegerField()
     attributes = models.CharField(max_length=1000)
     quantity = models.IntegerField()
-    buy_now = models.IntegerField()
-    added_on = models.DateTimeField()
+    buy_now = models.BooleanField(default=True)
+    added_on = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         managed = False
