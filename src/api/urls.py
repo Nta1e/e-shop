@@ -20,7 +20,7 @@ from api.viewsets.customers import (
     GetCustomer,
     UpdateCustomer,
 )
-from api.viewsets.department import DepartmentViewSet
+from api.viewsets.department import GetDepartments, GetSingleDepartment
 from api.viewsets.orders import (
     PlaceOrder,
     GetOrder,
@@ -51,8 +51,6 @@ from api.viewsets.tax import TaxViewSet
 logger = logging.getLogger(__name__)
 
 router = routers.DefaultRouter()
-router.register(r"departments", DepartmentViewSet)
-
 router.register(r"attributes", AttributeViewSet)
 router.register(r"tax", TaxViewSet)
 router.register(r"shipping/regions", ShippingRegionViewSet)
@@ -116,5 +114,7 @@ urlpatterns = [
     path("categories", GetCategories.as_view(), name="get_categories"),
     path("categories/<int:category_id>", GetCategory.as_view(), name="get_category"),
     path("categories/inProduct/<int:product_id>", GetProductCategory.as_view(), name="product_category"),
-    path("categories/inDepartment/<int:department_id>", GetDepartmentCategories.as_view(), name="department_categories")
+    path("categories/inDepartment/<int:department_id>", GetDepartmentCategories.as_view(), name="department_categories"),
+    path("departments", GetDepartments.as_view(), name='get_departments'),
+    path("departments/<int:department_id>", GetSingleDepartment.as_view(), name='get_department')
 ]
