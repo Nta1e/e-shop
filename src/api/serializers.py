@@ -37,6 +37,12 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = ("category_id", "name", "description", "department_id")
 
 
+class ProductCategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = ("category_id", "department_id", "name")
+
+
 class AttributeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Attribute

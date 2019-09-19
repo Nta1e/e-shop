@@ -5,8 +5,12 @@ from rest_framework import routers
 
 from api.viewsets.attribute import AttributeViewSet
 
-# from api.viewsets.category import CategoryViewSet
-# TODO: Implement category
+from api.viewsets.category import (
+    GetCategories,
+    GetCategory,
+    GetProductCategory,
+    GetDepartmentCategories
+)
 from api.viewsets.customers import (
     CreateCustomer,
     token_obtain_pair,
@@ -108,5 +112,9 @@ urlpatterns = [
     path("orders", PlaceOrder.as_view(), name="place_order"),
     path("orders/<int:order_id>", GetOrder.as_view(), name="get_order"),
     path("orders/InCustomer", GetCustomerOrder.as_view(), name="customer_order"),
-    path("orders/shortDetail/<int:order_id>", GetOrdersShortDetails.as_view(), name="order_detail")
+    path("orders/shortDetail/<int:order_id>", GetOrdersShortDetails.as_view(), name="order_detail"),
+    path("categories", GetCategories.as_view(), name="get_categories"),
+    path("categories/<int:category_id>", GetCategory.as_view(), name="get_category"),
+    path("categories/inProduct/<int:product_id>", GetProductCategory.as_view(), name="product_category"),
+    path("categories/inDepartment/<int:department_id>", GetDepartmentCategories.as_view(), name="department_categories")
 ]

@@ -7,11 +7,4 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-class DepartmentViewSet(viewsets.ReadOnlyModelViewSet):
-    """
-    list: Return a list of departments
-    retrieve: Return a department by ID.
-    """
 
-    queryset = Department.objects.all()
-    serializer_class = DepartmentSerializer
