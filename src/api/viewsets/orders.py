@@ -1,9 +1,5 @@
-from django.contrib.auth.models import AnonymousUser
-from django.core.mail import EmailMultiAlternatives
-from django.shortcuts import render
-from django.template.loader import render_to_string
-from drf_yasg import openapi
-from drf_yasg.utils import swagger_auto_schema
+import logging
+
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -11,19 +7,12 @@ from rest_framework.response import Response
 from api import errors
 from api.models import (
     Orders,
-    OrderDetail,
     Shipping,
     Tax,
     ShoppingCart,
     Product
 )
-from api.serializers import (
-    OrdersSerializer,
-    OrdersDetailSerializer,
-)
-import logging
-
-from turing_backend import settings
+from api.utils.mail import SendMail
 
 logger = logging.getLogger(__name__)
 
@@ -38,7 +27,9 @@ class PlaceOrder(generics.GenericAPIView):
         try:
             Shipping.objects.get(shipping_id=shipping_id)
             Tax.objects.get(tax_id=tax_id)
-            ShoppingCart.objects.get(cart_id=cart_id)
+            carts = ShoppingCart.objects.filter(cart_id=cart_id)
+            if not carts:
+                return errors.handle(errors.CRT_01)
             placed_order = Orders.objects.filter(reference=cart_id)
             if placed_order:
                 return errors.handle(errors.ORD_03)
@@ -48,6 +39,15 @@ class PlaceOrder(generics.GenericAPIView):
             order.customer_id = request.user.customer_id
             order.reference = cart_id
             order.save()
+            subject = "Order Received!"
+            to_email = [request.user.email]
+            context = {
+                "username": request.user.name,
+                "reference": order.reference,
+                "order_id": order.order_id
+            }
+            mail = SendMail('notify_order.html', context, subject, to_email)
+            mail.send()
             return_dict = {"order_id": order.order_id}
             return Response(return_dict, 201)
 
@@ -57,8 +57,6 @@ class PlaceOrder(generics.GenericAPIView):
         except Tax.DoesNotExist:
             return errors.handle(errors.TAX_01)
 
-        except ShoppingCart.DoesNotExist:
-            return errors.handle(errors.CRT_01)
 
 class GetOrder(generics.GenericAPIView):
     permission_classes = (IsAuthenticated,)

@@ -7,7 +7,7 @@ load_dotenv()
 
 DEBUG = True
 
-STRIPE_API_KEY = "sk_test_lomdOfxbm7QDgZWvR82UhV6D"
+STRIPE_API_KEY = getenv("STRIPE_API_KEY")
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
@@ -21,3 +21,9 @@ DATABASES = {
         "PORT": getenv("DB_PORT", "3306"),
     }
 }
+
+EMAIL_USE_TLS = True
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
+EMAIL_PORT = 587

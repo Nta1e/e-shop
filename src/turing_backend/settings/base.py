@@ -15,13 +15,18 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 from datetime import timedelta
 
+from dotenv import load_dotenv
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "8g10@m$5&i=x%q^#qdo*z79@)s89t=s%o8d9l@_o$9*n$+y=ip"
+
+load_dotenv()
+
+SECRET_KEY = os.getenv("SECRET_KEY", 'secret')
 
 ALLOWED_HOSTS = ["*"]
 
@@ -36,6 +41,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "api",
     "drf_yasg",
+    "stripe",
     "rest_framework_simplejwt",
 ]
 
@@ -161,7 +167,7 @@ SWAGGER_SETTINGS = {
 }
 
 WEBHOOK = {
-    "url": "https://example.com/my/webhook/endpoint",
+    "url": "http:localhost:8000",
     "enabled_events": ["charge.failed", "charge.succeeded"],
 }
 

@@ -53,8 +53,8 @@ from api.viewsets.shoppingcart import (
     EmptyCart,
     RemoveProduct,
 )
-from api.viewsets.stripe import charge, webhooks
 from api.viewsets.tax import GetAllTaxes, GetSingleTax
+from api.viewsets.payment import StripePayment
 
 logger = logging.getLogger(__name__)
 
@@ -120,5 +120,6 @@ urlpatterns = [
     path("tax", GetAllTaxes.as_view(), name='get_taxes'),
     path("tax/<int:tax_id>", GetSingleTax.as_view(), name="get_tax"),
     path("shipping/regions", GetShippingRegions.as_view(), name='shipping_regions'),
-    path("shipping/regions/<int:shipping_region_id>", GetRegionShippings.as_view(), name='region_shippings')
+    path("shipping/regions/<int:shipping_region_id>", GetRegionShippings.as_view(), name='region_shippings'),
+    path("stripe/charge", StripePayment.as_view(), name="stripe_payement")
 ]

@@ -1,4 +1,4 @@
-import os
+from functools import wraps
 
 import stripe
 
@@ -21,9 +21,11 @@ class PaymentError(Exception):
 
 
 def handle_error(function):
+    @wraps(function)
     def wrapper(*args, **kwargs):
         try:
-            function(*args, **kwargs)
+            exec = function(*args, **kwargs)
+            return exec
         except stripe.error.CardError as e:
             # Since it's a decline, stripe.error.CardError will be caught
             body = e.json_body
@@ -90,7 +92,6 @@ def create(amount, order_id, currency="usd", source="tok_mastercard", descriptio
         description=description,
         metadata={"order_id": order_id},
     )
-
     return response
 
 
