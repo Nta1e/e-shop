@@ -3,7 +3,12 @@ import logging
 from django.urls import path, include
 from rest_framework import routers
 
-from api.viewsets.attribute import AttributeViewSet
+from api.viewsets.attribute import (
+    GetAttributes,
+    GetSingleAttribute,
+    GetAttributeValues,
+    GetProductAttributes
+)
 
 from api.viewsets.category import (
     GetCategories,
@@ -18,7 +23,7 @@ from api.viewsets.customers import (
     UpdateAddress,
     UpdateCreditCard,
     GetCustomer,
-    UpdateCustomer,
+    UpdateCustomer
 )
 from api.viewsets.department import GetDepartments, GetSingleDepartment
 from api.viewsets.orders import (
@@ -51,20 +56,11 @@ from api.viewsets.tax import TaxViewSet
 logger = logging.getLogger(__name__)
 
 router = routers.DefaultRouter()
-router.register(r"attributes", AttributeViewSet)
 router.register(r"tax", TaxViewSet)
 router.register(r"shipping/regions", ShippingRegionViewSet)
 
 urlpatterns = [
     path("", include(router.urls)),
-    path(
-        "attributes/values/<int:attribute_id>/",
-        AttributeViewSet.as_view({"get": "get_values_from_attribute"}),
-    ),
-    path(
-        "attributes/inProduct/<int:product_id>/",
-        AttributeViewSet.as_view({"get": "get_attributes_from_product"}),
-    ),
     path("customer", GetCustomer.as_view(), name="get_customer"),
     path("customer/update", UpdateCustomer.as_view(), name="update_details"),
     path("customers", CreateCustomer.as_view(), name="create_customer"),
@@ -116,5 +112,9 @@ urlpatterns = [
     path("categories/inProduct/<int:product_id>", GetProductCategory.as_view(), name="product_category"),
     path("categories/inDepartment/<int:department_id>", GetDepartmentCategories.as_view(), name="department_categories"),
     path("departments", GetDepartments.as_view(), name='get_departments'),
-    path("departments/<int:department_id>", GetSingleDepartment.as_view(), name='get_department')
+    path("departments/<int:department_id>", GetSingleDepartment.as_view(), name='get_department'),
+    path("attributes", GetAttributes.as_view(), name='get_attributes'),
+    path("attributes/<int:attribute_id>", GetSingleAttribute.as_view(), name='get_attribute'),
+    path("attributes/values/<int:attribute_id>", GetAttributeValues.as_view(), name='attribute_values'),
+    path("attributes/inProduct/<int:product_id>", GetProductAttributes.as_view(), name='product_attributes')
 ]

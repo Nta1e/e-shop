@@ -124,6 +124,14 @@ TAX_01 = Error(
     code="TAX_01", message="Don't exist tax with this tax_id", _status=404
 )
 
+#attribute errors
+
+ATR_01 = Error(
+    code="ATR_01", message="Don't exist attribute with this attribute_id", _status=404
+)
+ATR_02 = Error(
+    code="ATR_02", message="Don't exist attributeValue with this attribute_id", _status=404
+)
 
 def handle(error: Error):
     error_response = {
