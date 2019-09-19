@@ -41,7 +41,10 @@ from api.viewsets.products import (
     PostProductReview,
     GetProductReviews
 )
-from api.viewsets.shipping_region import ShippingRegionViewSet
+from api.viewsets.shipping import (
+    GetRegionShippings,
+    GetShippingRegions
+)
 from api.viewsets.shoppingcart import (
     GenerateCartID,
     AddProducts,
@@ -56,8 +59,6 @@ from api.viewsets.tax import GetAllTaxes, GetSingleTax
 logger = logging.getLogger(__name__)
 
 router = routers.DefaultRouter()
-router.register(r"shipping/regions", ShippingRegionViewSet)
-
 urlpatterns = [
     path("", include(router.urls)),
     path("customer", GetCustomer.as_view(), name="get_customer"),
@@ -117,5 +118,7 @@ urlpatterns = [
     path("attributes/values/<int:attribute_id>", GetAttributeValues.as_view(), name='attribute_values'),
     path("attributes/inProduct/<int:product_id>", GetProductAttributes.as_view(), name='product_attributes'),
     path("tax", GetAllTaxes.as_view(), name='get_taxes'),
-    path("tax/<int:tax_id>", GetSingleTax.as_view(), name="get_tax")
+    path("tax/<int:tax_id>", GetSingleTax.as_view(), name="get_tax"),
+    path("shipping/regions", GetShippingRegions.as_view(), name='shipping_regions'),
+    path("shipping/regions/<int:shipping_region_id>", GetRegionShippings.as_view(), name='region_shippings')
 ]

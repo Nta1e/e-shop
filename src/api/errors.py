@@ -117,6 +117,9 @@ CRT_03 = Error(
 SHP_01 = Error(
     code="SHP_01", message="Don't exist shippingDetail with this id", _status=404
 )
+SHP_02 = Error(
+    code="SHP_02", message="Don't exist shipping with this shipping_region_id", _status=404
+)
 
 #tax errors
 
