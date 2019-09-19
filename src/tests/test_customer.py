@@ -4,7 +4,6 @@ from .base import BaseTestCase
 
 
 class CustomerTestCase(BaseTestCase):
-
     def test_successful_customer_registration(self):
         response = self.client.post(
             reverse("create_customer"),
@@ -43,18 +42,14 @@ class CustomerTestCase(BaseTestCase):
             format="json",
         )
         response = self.client.post(
-            reverse("login_customer"),
-            self.login_data,
-            format="json",
+            reverse("login_customer"), self.login_data, format="json"
         )
         self.assertEqual(response.status_code, 200)
-        self.assertIsNotNone(response.data['accessToken'])
+        self.assertIsNotNone(response.data["accessToken"])
 
     def test_invalid_login_credentials(self):
         response = self.client.post(
-            reverse("login_customer"),
-            self.login_data,
-            format="json",
+            reverse("login_customer"), self.login_data, format="json"
         )
         self.assertEqual(response.status_code, 401)
 
@@ -75,8 +70,5 @@ class CustomerTestCase(BaseTestCase):
             self.assertIn("accessToken", response.data)
 
     def test_get_customer(self):
-        response = self.client_with_token().get(
-            reverse("get_customer"),
-            format="json",
-        )
+        response = self.client_with_token().get(reverse("get_customer"), format="json")
         self.assertEqual(response.status_code, 200)

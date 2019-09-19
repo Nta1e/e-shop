@@ -32,7 +32,7 @@ logger = logging.getLogger(__name__)
 
 class GetCustomer(generics.GenericAPIView):
 
-    permission_classes = (IsAuthenticated, )
+    permission_classes = (IsAuthenticated,)
     serializer_class = CustomerSerializer
 
     def get(self, request):
@@ -101,9 +101,9 @@ class UpdateCreditCard(generics.GenericAPIView):
             customer = request.user
             customer.credit_card = credit_card
             customer.save()
-            last_digits = credit_card.split('-')[-1]
+            last_digits = credit_card.split("-")[-1]
             serializer_element = CustomerSerializer(customer)
-            credit_field = {"credit_card": "xxxxxxxxxxxx"+ str(last_digits)}
+            credit_field = {"credit_card": "xxxxxxxxxxxx" + str(last_digits)}
             return_dict = dict()
             return_dict.update(serializer_element.data)
             return_dict.update(credit_field)
@@ -178,4 +178,3 @@ class SocialLoginView(generics.GenericAPIView):
         )
         logger.debug("Success")
         return response
-

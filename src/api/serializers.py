@@ -71,6 +71,22 @@ class ProductSerializer(serializers.ModelSerializer):
         )
 
 
+class SingleProductSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        fields = (
+            "product_id",
+            "name",
+            "description",
+            "price",
+            "discounted_price",
+            "image",
+            "image_2",
+            "thumbnail",
+            "display",
+        )
+
+
 class CartProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
@@ -90,14 +106,14 @@ class OrdersSerializer(serializers.ModelSerializer):
 
 
 class OrdersDetailSerializer(serializers.ModelSerializer):
-    total_amount = serializers.ReadOnlyField(source="order.total_amount")
-    created_on = serializers.ReadOnlyField(source="order.created_on")
-    shipped_on = serializers.ReadOnlyField(source="order.shipped_on")
-    status = serializers.ReadOnlyField(source="order.status")
+    total_amount = serializers.ReadOnlyField(source="orders.total_amount")
+    created_on = serializers.ReadOnlyField(source="orders.created_on")
+    shipped_on = serializers.ReadOnlyField(source="orders.shipped_on")
+    status = serializers.ReadOnlyField(source="orders.status")
     name = serializers.ReadOnlyField(source="product_name")
 
     class Meta:
-        model = OrderDetail
+        model = Orders
         fields = (
             "order_id",
             "total_amount",
@@ -106,12 +122,6 @@ class OrdersDetailSerializer(serializers.ModelSerializer):
             "status",
             "name",
         )
-
-
-class OrdersSaveSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Orders
-        fields = ("tax_id", "shipping_id")
 
 
 class ShoppingcartSerializer(serializers.ModelSerializer):
@@ -129,7 +139,7 @@ class TaxSerializer(serializers.ModelSerializer):
 class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Review
-        fields = ("product_id", "review", "customer_id", "rating")
+        fields = ("review", "rating", "created_on")
 
 
 class ShippingSerializer(serializers.ModelSerializer):
@@ -156,7 +166,7 @@ class TokenObtainPairPatchedSerializer(TokenObtainPairSerializer):
         refresh = self.get_token(self.user)
         return_data = {
             "customer": CustomerSerializer(self.user).data,
-            "accessToken": 'Bearer '+str(refresh.access_token),
+            "accessToken": "Bearer " + str(refresh.access_token),
             "expires_in": "24h",
         }
         return return_data

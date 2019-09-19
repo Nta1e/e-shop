@@ -5,19 +5,18 @@ from rest_framework_simplejwt.exceptions import AuthenticationFailed
 
 
 class CustomJWTAuthentication(JWTAuthentication):
-
     def get_header(self, request):
         """
         Extracts the header containing the JSON web token from the given
         request.
         """
 
-        header = request.META.get('HTTP_USER_KEY')
+        header = request.META.get("HTTP_USER_KEY")
 
         if not header:
             raise AuthenticationFailed(
-                _('Authorization header must contain USER-KEY header param'),
-                code='bad_authorization_header',
+                _("Authorization header must contain USER-KEY header param"),
+                code="bad_authorization_header",
             )
 
         if isinstance(header, str):

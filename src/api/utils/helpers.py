@@ -4,9 +4,9 @@ from itertools import groupby
 
 
 def decode_token_from_request(request):
-    token = request.META['HTTP_USER_KEY'].split(' ')[-1]
+    token = request.META["HTTP_USER_KEY"].split(" ")[-1]
     decoded_payload = jwt.decode(token, None, None)
-    customer_id = decoded_payload.get('user_id')
+    customer_id = decoded_payload.get("user_id")
     return customer_id
 
 

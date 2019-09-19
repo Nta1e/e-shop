@@ -1,26 +1,19 @@
-import copy
 import random
-from itertools import chain
 
-from django.db.models import F
-from django.utils import timezone
-from drf_yasg import openapi
-from drf_yasg.utils import swagger_auto_schema
-from itypes import List
-from rest_framework.decorators import api_view, action
 from rest_framework.response import Response
 from rest_framework import generics
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from api import errors
 from api.models import ShoppingCart, Product
-from api.serializers import ShoppingcartSerializer, ProductSerializer
+from api.serializers import ShoppingcartSerializer
 import logging
 
 logger = logging.getLogger(__name__)
 
 
 class GenerateCartID(generics.GenericAPIView):
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (AllowAny,)
+    authentication_classes = ()
 
     def get(self, request):
         """
@@ -32,18 +25,19 @@ class GenerateCartID(generics.GenericAPIView):
 
 
 class AddProducts(generics.GenericAPIView):
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (AllowAny,)
+    authentication_classes = ()
     serializer_class = ShoppingcartSerializer
 
     def post(self, request):
 
         cart_id = request.data.get("cart_id")
         shopping_cart = ShoppingCart.objects.filter(cart_id=cart_id)
-        product_id = request.data.get('product_id', None)
+        product_id = request.data.get("product_id", None)
         if len(shopping_cart) > 0:
             for cart_instance in shopping_cart:
                 if cart_instance.product_id == product_id:
-                    return errors.handle(errors.SHP_02)
+                    return errors.handle(errors.CRT_02)
 
         cart = ShoppingCart()
         for field, value in request.data.items():
@@ -58,13 +52,14 @@ class AddProducts(generics.GenericAPIView):
 
 
 class GetProducts(generics.GenericAPIView):
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (AllowAny,)
+    authentication_classes = ()
 
     def get(self, request, cart_id):
 
         cart: ShoppingCart = ShoppingCart.objects.filter(cart_id=cart_id)
         if not cart:
-            return errors.handle(errors.SHP_01)
+            return errors.handle(errors.CRT_01)
 
         cart_items = []
         for product in cart:
@@ -79,14 +74,13 @@ class GetProducts(generics.GenericAPIView):
                 "price": str(pdt.price),
                 "discounted_price": str(pdt.discounted_price),
                 "quantity": product.quantity,
-                "subtotal": pdt.price*product.quantity
+                "subtotal": pdt.price * product.quantity,
             }
             cart_items.append(_product)
         return Response(cart_items, 200)
 
 
 class UpdateQuantity(generics.GenericAPIView):
-
     def put(self, request, item_id):
         try:
             cart_item = ShoppingCart.objects.get(item_id=item_id)
@@ -101,7 +95,7 @@ class UpdateQuantity(generics.GenericAPIView):
             new_dict.update(cart_id_field)
             return Response(new_dict, 201)
         except ShoppingCart.DoesNotExist:
-            return errors.handle(errors.SHP_03)
+            return errors.handle(errors.CRT_03)
 
 
 class EmptyCart(generics.GenericAPIView):
@@ -110,7 +104,7 @@ class EmptyCart(generics.GenericAPIView):
     def delete(self, request, cart_id):
         cart = ShoppingCart.objects.filter(cart_id=cart_id)
         if not cart:
-            return errors.handle(errors.SHP_01)
+            return errors.handle(errors.CRT_01)
         for item in cart:
             item.delete()
         return Response([], 200)
@@ -125,4 +119,4 @@ class RemoveProduct(generics.GenericAPIView):
             item.delete()
             return Response({"message": "Item successfully removed from cart!"})
         except ShoppingCart.DoesNotExist:
-            return errors.handle(errors.SHP_03)
+            return errors.handle(errors.CRT_03)
