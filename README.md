@@ -2,49 +2,91 @@
 [![Build Status](https://travis-ci.com/Nta1e/Turing_backend_challenge.svg?token=QAfgj3KstfQjsmX6MRX8&branch=dev)](https://travis-ci.com/Nta1e/Turing_backend_challenge)
 
 
-## Getting started
+## Description
+ This the backend of the turing E commerce application built with Django
+The documentation of the API can be found [here](https://turing-backend-shadik.herokuapp.com/docs/)
 
-### Prerequisites
+## The project has the following routes
 
-In order to install and run this project locally, you would need to have the following installed on you local machine.
+| REQUEST | ROUTE | FUNCTIONALITY |
+| ------- | ----- | ------------- |
+| *POST* | ```/customers``` | _Register new Customer_|
+| *POST* | ```/customers/login``` | _Customer login_|
+| *POST* | ```/customers/facebook``` | _Facebook Login_|
+| *GET* | ```/customer``` | _Get Customer Details_|
+| *PUT* | ```/customer/update``` | _Update Customer Details_|
+| *PUT* | ```/customer/address``` | _Update Customer Address_ |
+| *PUT* | ```/customer/creditCard``` | _Update Customer Credit Card_|
+| *GET* | ```/shoppingcart/generateUniqueId``` | _Generate Shopping Cart ID_|
+| *POST* | ```/shoppingcart/add``` | _Add product to cart_|
+| *GET* | ```/shoppingcart/<cart_id>``` | _Get products in cart_|
+| *PUT* | ```/shoppingcart/update/<item_id>``` | _Update Product Quantity_|
+| *DELETE* | ```/shoppingcart/empty/<cart_id>``` | _Empty cart_|
+| *DELETE* | ```/shoppingcart/removeProduct/<product_id>``` | _Remove item from cart_|
+| *GET* | ```/products``` | _Retrieve products_|
+| *GET* | ```/products/search?name=''&&description=''``` | _Search products_|
+| *GET* | ```/products/<product_id>``` | _Get Single Product_|
+| *GET* | ```/products/inCategory/{category_id}``` | _Get products in category_|
+| *GET* | ```/products/inDepartment/<department_id>``` | _Get products in department_|
+| *GET* | ```/products/reviews``` | _Get Products Reviews_|
+| *GET* | ```/products/<product_id>/reviews``` | _Get Product Reviews_|
+| *POST* | ```/orders``` | _Place an order_|
+| *PUT* | ```/orders/<order_id>``` | _Get Single order_ |
+| *GET* | ```/orders/InCustomer``` | _Get Customer Orders_|
+| *GET* | ```/orders/shortDetail/<order_id>``` | _Get Order Short Detail_|
+| *GET* | ```/categories``` | _Get Product Category_|
+| *GET* | ```/categories/<category_id>``` | _Get Single Category_|
+| *GET* | ```/categories/inProduct/{product_id}``` | _Get Product Category_|
+| *GET* | ```/categories/inDepartment/<department_id>``` | _Get categories in department_|
+| *GET* | ```/departments``` | _Get departments_ |
+| *GET* | ```/departments/<department_id>``` | _Get Department_|
+| *GET* | ```/attributes``` | _Get Attributes_|
+| *GET* | ```/attributes/<attribute_id>``` | _Get Single Attribute_|
+| *GET* | ```/attributes/values/<attribute_id>``` | _Get Attribute Values_|
+| *GET* | ```/attributes/inProduct/<product_id>``` | _Get Product Attributes_|
+| *GET* | ```/tax``` | _Get all taxes_|
+| *GET* | ```/tax/<tax_id>``` | _Get single tax_ |
+| *GET* | ```/shipping/regions``` | _Get shipping Regions_|
+| *GET* | ```/shipping/regions/{shipping_region_id}``` | _Get region shippings_|
+| *POST* | ```/stripe/charge``` | _Stripe Payment_|
 
-* [**Python 3+**](https://www.python.org/downloads/release/python-368/)
-* [**Django 2+**](https://www.djangoproject.com/download/) 
-* [**MySQL**](https://www.mysql.com/downloads/)
+
+## BUILT WITH
+
+* Django - Python Web Framework
+* Django Rest FrameWork - Web API Framework for Django
+
+## SETTING UP APPLICATION
+1. Install mysql
 
 
-### Installation
+clone the repository and change directory to the `src` folder
 
-* Clone this repository
-* Navigate to the project directory `cd src/`
-* Create a virtual environment
-* Install dependencies `pip3 install -r requirements.txt`
-
-* Edit `src/turing_backend/settings.py` database credentials to your database instance
-
-* Create a MySQL database and run the sql file in the database directory to migrate the database
-`mysql -u <dbuser> -D <databasename> -p < ./sql/database.sql`
-
-* Run the command `python manage.py makemigrations` 
-
-* Run the command `python manage.py migrate` to create and sync the mysql database (you must have the database previously created with name 'turing_db').
-
-* It's needed that you have your own super user to admin the application, so run the command `python manage.py createsuperuser` and follow the instructions.
-
-* Run the command `python manage.py runserver`
-
-* Run development server
-
-`python manage.py runserver`		
-
-## Request and Response Object API guide for all Endpoints
-
-* Check [here](https://docs.google.com/document/d/1J12z1vPo8S5VEmcHGNejjJBOcqmPrr6RSQNdL58qJyE/edit?usp=sharing)
-* Visit `http://127.0.0.1:80/docs/
-
-## Using Docker 
-Build image
-
-`docker build -t turing_app .` 
+**```git clone https://github.com/Nta1e/Turing_backend_challenge.git```**
+**```cd Turing_backend_challenge && cd src```**
 
 
+3. Create a virtual environment that you are going to use while running the application locally
+
+    **```$ python3 -m venv env```**
+
+    **```$ source  env/bin/activate```**
+
+4. Install all project dependencies using
+
+    **```pip3 install -r requirements.txt```**
+
+5. Create tables and dump data into the database using the following command
+
+    **``` mysql -u <user> -D <database> -p < ./src/sql/database.sql```**
+
+6. Make Migrations
+
+    **```python manage.py migrate auth && python manage.py migrate```**
+
+7. Run the application
+    **```python3 manage.py runserver```**
+
+## Author
+
+*Ntale Shadik*
