@@ -48,5 +48,22 @@
       "buy_now": true,
       "added_on": "2019-03-30"
     }
+  },
+    {
+    "model": "api.Shipping",
+    "pk": 1,
+    "fields": {
+      "shipping_type": "ship",
+      "shipping_cost": 45,
+      "shipping_region_id": 1
+    }
+  },
+  {
+    "model": "api.Tax",
+    "pk": 1,
+    "fields": {
+      "tax_type": "VAT",
+      "tax_percentage": 4.5
+    }
   }
 ]

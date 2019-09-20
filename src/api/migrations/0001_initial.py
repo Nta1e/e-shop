@@ -174,7 +174,7 @@ class Migration(migrations.Migration):
                 ("shipping_cost", models.DecimalField(decimal_places=2, max_digits=10)),
                 ("shipping_region_id", models.IntegerField()),
             ],
-            options={"db_table": "shipping", "managed": False},
+            options={"db_table": "shipping", "managed": True},
         ),
         migrations.CreateModel(
             name="ShippingRegion",
@@ -210,6 +210,6 @@ class Migration(migrations.Migration):
                     models.DecimalField(decimal_places=2, max_digits=10),
                 ),
             ],
-            options={"db_table": "tax", "managed": False},
+            options={"db_table": "tax", "managed": True},
         ),
     ]

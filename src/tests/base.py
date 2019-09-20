@@ -20,6 +20,11 @@ class BaseTestCase(APITestCase):
             "attributes": "good",
             "quantity": 5
         }
+        self.order_data = {
+            "cart_id": "186963645",
+            "shipping_id": 1,
+            "tax_id": 1
+        }
         call_command('loaddata', 'tests')
 
     def customer_data(self, name, email, password):
