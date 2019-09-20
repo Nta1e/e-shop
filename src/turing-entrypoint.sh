@@ -13,4 +13,4 @@ done
 echo -e "\nMySQL ready!"
 
 python manage.py migrate auth
-python manage.py runserver 0.0.0.0:80
+python manage.py runserver 0.0.0.0:$PORT

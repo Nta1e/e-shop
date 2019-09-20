@@ -161,10 +161,8 @@ COPY . .
 # Install requirements
 RUN pip install -r requirements.txt
 
-EXPOSE 80/tcp
-EXPOSE 3306/tcp
 
 COPY turing-entrypoint.sh /turing-entrypoint.sh
 
 RUN ["chmod", "+x", "/turing-entrypoint.sh"]
-CMD turing-entrypoint.sh
+CMD /turing-entrypoint.sh

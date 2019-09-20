@@ -1,10 +1,8 @@
-import django_heroku
-import dj_database_url
 from .base import *
 
 DEBUG = True
 
-ALLOWED_HOSTS = ["127.0.0.1"]
+ALLOWED_HOSTS = ["127.0.0.1", "turing-backend-shadik.herokuapp.com"]
 
 CACHES = {
     "default": {
@@ -30,8 +28,6 @@ DATABASES = {
     }
 }
 
-SOCIAL_AUTH_FACEBOOK_KEY = os.getenv("SOCIAL_AUTH_FACEBOOK_KEY")
-SOCIAL_AUTH_FACEBOOK_SECRET = os.getenv("SOCIAL_AUTH_FACEBOOK_SECRET")
 
 # Email related stuff
 EMAIL_USE_TLS = True
@@ -41,6 +37,3 @@ EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
 EMAIL_PORT = 587
 
 APP_NAME = "Turing E-commerce"
-
-db_from_env = dj_database_url.config(conn_max_age=500)
-DATABASES["default"].update(db_from_env)
