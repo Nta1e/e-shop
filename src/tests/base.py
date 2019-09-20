@@ -14,6 +14,12 @@ class BaseTestCase(APITestCase):
                 "review": "good...",
                 "rating": 5
         }
+        self.cart_data = {
+            "cart_id": "186963646",
+            "product_id": 1,
+            "attributes": "good",
+            "quantity": 5
+        }
         call_command('loaddata', 'tests')
 
     def customer_data(self, name, email, password):
@@ -40,22 +46,3 @@ class BaseTestCase(APITestCase):
         )
         category.save()
         return category
-
-    @property
-    def create_product(self):
-        product = Product(
-            name="bose",
-            description="noise_cancellation",
-            price=300.00,
-            discounted_price=23.00,
-            display=0
-        )
-        product.save()
-        return product
-
-    def create_product_category(self):
-        product_category = ProductCategory(
-            product_id=self.create_product.product_id,
-            category_id=self.create_category.category_id
-        )
-        return product_category

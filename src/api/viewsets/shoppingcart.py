@@ -21,7 +21,7 @@ class GenerateCartID(generics.GenericAPIView):
         """
         cart_id = random.randint(100000000, 999999999)
         logger.debug("Generating cart ID")
-        return Response({"cart_id": str(cart_id)})
+        return Response({"cart_id": str(cart_id)}, 201)
 
 
 class AddProducts(generics.GenericAPIView):

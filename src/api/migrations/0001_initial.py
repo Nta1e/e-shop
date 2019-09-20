@@ -198,7 +198,7 @@ class Migration(migrations.Migration):
                 ("buy_now", models.IntegerField()),
                 ("added_on", models.DateTimeField()),
             ],
-            options={"db_table": "shopping_cart", "managed": False},
+            options={"db_table": "shopping_cart", "managed": True},
         ),
         migrations.CreateModel(
             name="Tax",
