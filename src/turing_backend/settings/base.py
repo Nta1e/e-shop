@@ -154,9 +154,7 @@ SIMPLE_JWT = {
 
 AUTHENTICATION_BACKENDS = (
     "django.contrib.auth.backends.ModelBackend",
-    # Facebook OAuth2
-    "social_core.backends.facebook.FacebookAppOAuth2",
-    "social_core.backends.facebook.FacebookOAuth2",
+
 )
 
 SWAGGER_SETTINGS = {

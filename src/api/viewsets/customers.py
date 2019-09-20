@@ -1,19 +1,11 @@
 import logging
-from itertools import groupby
 
-from django.contrib.auth import login
 from django.contrib.auth.models import AnonymousUser
-from drf_yasg import openapi
-from drf_yasg.utils import swagger_auto_schema
 from rest_framework import generics, permissions, status
-from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView
-from social_core.backends.oauth import BaseOAuth2
-from social_core.exceptions import MissingBackend, AuthTokenError, AuthForbidden
-from social_django.utils import load_strategy, load_backend
 
 from api.utils.facebook_validation import FacebookValidation
 from api.utils.helpers import decode_token_from_request, validate_credit_card
@@ -21,10 +13,7 @@ from api import errors, serializers
 from api.models import Customer
 from api.serializers import (
     CustomerSerializer,
-    UserSerializer,
-    UpdateCustomerSerializer,
     SocialSerializer,
-    CustomerAddressSerializer,
 )
 
 logger = logging.getLogger(__name__)
