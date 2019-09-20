@@ -49,8 +49,9 @@ class SearchProducts(generics.ListAPIView):
 
 
 class GetSingleProduct(generics.GenericAPIView):
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (AllowAny,)
     serializer_class = SingleProductSerializer
+    authentication_classes = ()
 
     def get(self, request, product_id):
         try:

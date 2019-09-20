@@ -52,7 +52,7 @@ class Migration(migrations.Migration):
                     models.CharField(blank=True, max_length=1000, null=True),
                 ),
             ],
-            options={"db_table": "category", "managed": False},
+            options={"db_table": "category", "managed": True},
         ),
         migrations.CreateModel(
             name="Customer",
@@ -118,7 +118,7 @@ class Migration(migrations.Migration):
                 ("shipping_id", models.IntegerField(blank=True, null=True)),
                 ("tax_id", models.IntegerField(blank=True, null=True)),
             ],
-            options={"db_table": "orders", "managed": False},
+            options={"db_table": "orders", "managed": True},
         ),
         migrations.CreateModel(
             name="Product",
@@ -136,7 +136,7 @@ class Migration(migrations.Migration):
                 ("thumbnail", models.CharField(blank=True, max_length=150, null=True)),
                 ("display", models.SmallIntegerField()),
             ],
-            options={"db_table": "product", "managed": False},
+            options={"db_table": "product", "managed": True},
         ),
         migrations.CreateModel(
             name="ProductAttribute",
@@ -152,7 +152,7 @@ class Migration(migrations.Migration):
                 ("product_id", models.IntegerField(primary_key=True, serialize=False)),
                 ("category_id", models.IntegerField()),
             ],
-            options={"db_table": "product_category", "managed": False},
+            options={"db_table": "product_category", "managed": True},
         ),
         migrations.CreateModel(
             name="Review",
@@ -164,7 +164,7 @@ class Migration(migrations.Migration):
                 ("rating", models.SmallIntegerField()),
                 ("created_on", models.DateTimeField()),
             ],
-            options={"db_table": "review", "managed": False},
+            options={"db_table": "review", "managed": True},
         ),
         migrations.CreateModel(
             name="Shipping",

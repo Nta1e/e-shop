@@ -169,4 +169,8 @@ WEBHOOK = {
     "enabled_events": ["charge.failed", "charge.succeeded"],
 }
 
+FIXTURE_DIRS=(
+    os.path.join(os.getcwd(), 'tests', 'fixtures'),
+)
+
 AUTH_USER_MODEL = "api.Customer"

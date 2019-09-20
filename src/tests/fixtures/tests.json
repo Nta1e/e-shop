@@ -1,0 +1,41 @@
+[
+  {
+    "model": "api.Product",
+    "pk": 1,
+    "fields": {
+      "name":"bose",
+      "description":"noise cancellation",
+      "price":300.00,
+      "discounted_price":23.00,
+      "display": 0
+    }
+  },
+  {
+    "model": "api.Category",
+    "pk": 1,
+    "fields": {
+      "department_id":1,
+      "name":"headphones",
+      "description":"noise cancellation"
+    }
+  },
+  {
+    "model": "api.ProductCategory",
+    "pk": 1,
+    "fields": {
+      "category_id": 1
+    }
+  },
+  {
+    "model": "api.Review",
+    "pk": 1,
+    "fields": {
+      "customer_id": 1,
+      "product_id": 1,
+      "review": "good product",
+      "rating": 5,
+      "created_on": "2019-03-30"
+
+    }
+  }
+]
