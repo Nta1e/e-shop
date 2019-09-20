@@ -116,7 +116,7 @@ class Customer(models.Model):
         return _check_password(raw_password, self.password)
 
     class Meta:
-        managed = True
+        managed = False
         db_table = "customer"
 
 

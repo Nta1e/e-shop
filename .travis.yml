@@ -12,4 +12,4 @@ before_install:
 install:
   - pip install -r requirements.txt
 script:
-  - python manage.py test
+  - DB_MANAGED=True python manage.py test
