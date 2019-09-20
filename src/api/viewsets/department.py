@@ -30,4 +30,3 @@ class GetSingleDepartment(generics.GenericAPIView):
             return Response(serializer_element.data)
         except Department.DoesNotExist:
             return errors.handle(errors.DEP_02)
-

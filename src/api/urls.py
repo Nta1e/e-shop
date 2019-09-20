@@ -7,14 +7,14 @@ from api.viewsets.attribute import (
     GetAttributes,
     GetSingleAttribute,
     GetAttributeValues,
-    GetProductAttributes
+    GetProductAttributes,
 )
 
 from api.viewsets.category import (
     GetCategories,
     GetCategory,
     GetProductCategory,
-    GetDepartmentCategories
+    GetDepartmentCategories,
 )
 from api.viewsets.customers import (
     CreateCustomer,
@@ -23,14 +23,14 @@ from api.viewsets.customers import (
     UpdateAddress,
     UpdateCreditCard,
     GetCustomer,
-    UpdateCustomer
+    UpdateCustomer,
 )
 from api.viewsets.department import GetDepartments, GetSingleDepartment
 from api.viewsets.orders import (
     PlaceOrder,
     GetOrder,
     GetCustomerOrder,
-    GetOrdersShortDetails
+    GetOrdersShortDetails,
 )
 from api.viewsets.products import (
     RetrieveProducts,
@@ -39,12 +39,9 @@ from api.viewsets.products import (
     GetProductsInCategory,
     GetProductsInDepartment,
     PostProductReview,
-    GetProductReviews
+    GetProductReviews,
 )
-from api.viewsets.shipping import (
-    GetRegionShippings,
-    GetShippingRegions
-)
+from api.viewsets.shipping import GetRegionShippings, GetShippingRegions
 from api.viewsets.shoppingcart import (
     GenerateCartID,
     AddProducts,
@@ -102,24 +99,60 @@ urlpatterns = [
         name="products_in_dpt",
     ),
     path("products/reviews", PostProductReview.as_view(), name="post_review"),
-    path("products/<int:product_id>/reviews", GetProductReviews.as_view(), name="get_reviews"),
+    path(
+        "products/<int:product_id>/reviews",
+        GetProductReviews.as_view(),
+        name="get_reviews",
+    ),
     path("orders", PlaceOrder.as_view(), name="place_order"),
     path("orders/<int:order_id>", GetOrder.as_view(), name="get_order"),
     path("orders/InCustomer", GetCustomerOrder.as_view(), name="customer_order"),
-    path("orders/shortDetail/<int:order_id>", GetOrdersShortDetails.as_view(), name="order_detail"),
+    path(
+        "orders/shortDetail/<int:order_id>",
+        GetOrdersShortDetails.as_view(),
+        name="order_detail",
+    ),
     path("categories", GetCategories.as_view(), name="get_categories"),
     path("categories/<int:category_id>", GetCategory.as_view(), name="get_category"),
-    path("categories/inProduct/<int:product_id>", GetProductCategory.as_view(), name="product_category"),
-    path("categories/inDepartment/<int:department_id>", GetDepartmentCategories.as_view(), name="department_categories"),
-    path("departments", GetDepartments.as_view(), name='get_departments'),
-    path("departments/<int:department_id>", GetSingleDepartment.as_view(), name='get_department'),
-    path("attributes", GetAttributes.as_view(), name='get_attributes'),
-    path("attributes/<int:attribute_id>", GetSingleAttribute.as_view(), name='get_attribute'),
-    path("attributes/values/<int:attribute_id>", GetAttributeValues.as_view(), name='attribute_values'),
-    path("attributes/inProduct/<int:product_id>", GetProductAttributes.as_view(), name='product_attributes'),
-    path("tax", GetAllTaxes.as_view(), name='get_taxes'),
+    path(
+        "categories/inProduct/<int:product_id>",
+        GetProductCategory.as_view(),
+        name="product_category",
+    ),
+    path(
+        "categories/inDepartment/<int:department_id>",
+        GetDepartmentCategories.as_view(),
+        name="department_categories",
+    ),
+    path("departments", GetDepartments.as_view(), name="get_departments"),
+    path(
+        "departments/<int:department_id>",
+        GetSingleDepartment.as_view(),
+        name="get_department",
+    ),
+    path("attributes", GetAttributes.as_view(), name="get_attributes"),
+    path(
+        "attributes/<int:attribute_id>",
+        GetSingleAttribute.as_view(),
+        name="get_attribute",
+    ),
+    path(
+        "attributes/values/<int:attribute_id>",
+        GetAttributeValues.as_view(),
+        name="attribute_values",
+    ),
+    path(
+        "attributes/inProduct/<int:product_id>",
+        GetProductAttributes.as_view(),
+        name="product_attributes",
+    ),
+    path("tax", GetAllTaxes.as_view(), name="get_taxes"),
     path("tax/<int:tax_id>", GetSingleTax.as_view(), name="get_tax"),
-    path("shipping/regions", GetShippingRegions.as_view(), name='shipping_regions'),
-    path("shipping/regions/<int:shipping_region_id>", GetRegionShippings.as_view(), name='region_shippings'),
-    path("stripe/charge", StripePayment.as_view(), name="stripe_payement")
+    path("shipping/regions", GetShippingRegions.as_view(), name="shipping_regions"),
+    path(
+        "shipping/regions/<int:shipping_region_id>",
+        GetRegionShippings.as_view(),
+        name="region_shippings",
+    ),
+    path("stripe/charge", StripePayment.as_view(), name="stripe_payement"),
 ]

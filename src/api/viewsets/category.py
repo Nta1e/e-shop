@@ -6,6 +6,7 @@ from api.models import Category, ProductCategory
 from api.serializers import CategorySerializer, ProductCategorySerializer
 from api import errors
 
+
 class GetCategories(generics.GenericAPIView):
     permission_classes = (IsAuthenticated,)
 

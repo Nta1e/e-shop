@@ -11,10 +11,7 @@ from api.utils.facebook_validation import FacebookValidation
 from api.utils.helpers import decode_token_from_request, validate_credit_card
 from api import errors, serializers
 from api.models import Customer
-from api.serializers import (
-    CustomerSerializer,
-    SocialSerializer,
-)
+from api.serializers import CustomerSerializer, SocialSerializer
 
 logger = logging.getLogger(__name__)
 

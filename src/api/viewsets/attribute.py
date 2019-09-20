@@ -4,11 +4,7 @@ from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from api import errors
-from api.models import (
-    Attribute,
-    AttributeValue,
-    ProductAttribute
-)
+from api.models import Attribute, AttributeValue, ProductAttribute
 from api.serializers import (
     AttributeSerializer,
     AttributeValueSerializer,
@@ -58,12 +54,11 @@ class GetProductAttributes(generics.GenericAPIView):
         product_attrs = ProductAttribute.objects.filter(product_id=product_id)
         return_data = list()
         for item in product_attrs:
-            attribute_value = AttributeValue.objects.get(attribute_value_id=item.attribute_value_id)
+            attribute_value = AttributeValue.objects.get(
+                attribute_value_id=item.attribute_value_id
+            )
             attribute = Attribute.objects.get(attribute_id=attribute_value.attribute_id)
             serializer = AttributeValueExtendedSerializer(attribute_value)
-            _return_dict = {
-                "attribute_name": attribute.name,
-                **serializer.data
-            }
+            _return_dict = {"attribute_name": attribute.name, **serializer.data}
             return_data.append(_return_dict)
         return Response(return_data)

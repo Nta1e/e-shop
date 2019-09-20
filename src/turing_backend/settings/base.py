@@ -26,7 +26,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 load_dotenv()
 
-SECRET_KEY = os.getenv("SECRET_KEY", 'secret')
+SECRET_KEY = os.getenv("SECRET_KEY", "secret")
 
 ALLOWED_HOSTS = ["*"]
 
@@ -152,19 +152,12 @@ SIMPLE_JWT = {
 }
 
 
-AUTHENTICATION_BACKENDS = (
-    "django.contrib.auth.backends.ModelBackend",
-
-)
+AUTHENTICATION_BACKENDS = ("django.contrib.auth.backends.ModelBackend",)
 
 SWAGGER_SETTINGS = {
-    'SECURITY_DEFINITIONS': {
-        'api_key': {
-            'type': 'apiKey',
-            'in': 'header',
-            'name': 'Authorization',
-        }
-    },
+    "SECURITY_DEFINITIONS": {
+        "api_key": {"type": "apiKey", "in": "header", "name": "Authorization"}
+    }
 }
 
 WEBHOOK = {
@@ -172,8 +165,6 @@ WEBHOOK = {
     "enabled_events": ["charge.failed", "charge.succeeded"],
 }
 
-FIXTURE_DIRS=(
-    os.path.join(os.getcwd(), 'tests', 'fixtures'),
-)
+FIXTURE_DIRS = (os.path.join(os.getcwd(), "tests", "fixtures"),)
 
 AUTH_USER_MODEL = "api.Customer"

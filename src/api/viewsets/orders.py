@@ -5,13 +5,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from api import errors
-from api.models import (
-    Orders,
-    Shipping,
-    Tax,
-    ShoppingCart,
-    Product
-)
+from api.models import Orders, Shipping, Tax, ShoppingCart, Product
 from api.utils.mail import SendMail
 
 logger = logging.getLogger(__name__)
@@ -44,9 +38,9 @@ class PlaceOrder(generics.GenericAPIView):
             context = {
                 "username": request.user.name,
                 "reference": order.reference,
-                "order_id": order.order_id
+                "order_id": order.order_id,
             }
-            mail = SendMail('notify_order.html', context, subject, to_email)
+            mail = SendMail("notify_order.html", context, subject, to_email)
             mail.send()
             return_dict = {"order_id": order.order_id}
             return Response(return_dict, 201)
@@ -73,14 +67,11 @@ class GetOrder(generics.GenericAPIView):
                     "attributes": item.attributes,
                     "product_name": product.name,
                     "quantity": item.quantity,
-                    "unit_cost": product.price/item.quantity,
-                    "sub_total": product.price*item.quantity
+                    "unit_cost": product.price / item.quantity,
+                    "sub_total": product.price * item.quantity,
                 }
                 _product_list.append(holding_dict)
-            return_dict = {
-                "order_id": order_id,
-                "order_items": _product_list
-            }
+            return_dict = {"order_id": order_id, "order_items": _product_list}
             return Response(return_dict)
         except Orders.DoesNotExist:
             return errors.handle(errors.ORD_01)
@@ -99,7 +90,7 @@ class GetCustomerOrder(generics.GenericAPIView):
                 "total_amount": order.total_amount,
                 "created_on": order.created_on,
                 "shipped_on": order.shipped_on,
-                "name": request.user.name
+                "name": request.user.name,
             }
             orders_list.append(holding_dict)
         return Response(orders_list)
@@ -119,9 +110,11 @@ class GetOrdersShortDetails(generics.GenericAPIView):
                     "order_id": order.order_id,
                     "total_amount": str(order.total_amount),
                     "created_on": order.created_on,
-                    "shipped_on": order.shipped_on if order.shipped_on is not None else '',
+                    "shipped_on": order.shipped_on
+                    if order.shipped_on is not None
+                    else "",
                     "status": order.status,
-                    "name": product.name
+                    "name": product.name,
                 }
                 details_list.append(details_dict)
             return Response(details_list)

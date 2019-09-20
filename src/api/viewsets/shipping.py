@@ -5,10 +5,7 @@ from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
 
 from api.models import ShippingRegion, Shipping
-from api.serializers import (
-    ShippingRegionSerializer,
-    ShippingSerializer
-)
+from api.serializers import ShippingRegionSerializer, ShippingSerializer
 from api import errors
 
 logger = logging.getLogger(__name__)

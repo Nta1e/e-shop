@@ -9,23 +9,15 @@ class BaseTestCase(APITestCase):
     def setUp(self):
         self.client = APIClient()
         self.login_data = {"email": "Ntale@turing.com", "password": "password123"}
-        self.review_data = {
-                "product_id": 1,
-                "review": "good...",
-                "rating": 5
-        }
+        self.review_data = {"product_id": 1, "review": "good...", "rating": 5}
         self.cart_data = {
             "cart_id": "186963646",
             "product_id": 1,
             "attributes": "good",
-            "quantity": 5
+            "quantity": 5,
         }
-        self.order_data = {
-            "cart_id": "186963645",
-            "shipping_id": 1,
-            "tax_id": 1
-        }
-        call_command('loaddata', 'tests')
+        self.order_data = {"cart_id": "186963645", "shipping_id": 1, "tax_id": 1}
+        call_command("loaddata", "tests")
 
     def customer_data(self, name, email, password):
         data = {"name": name, "email": email, "password": password}
@@ -44,10 +36,6 @@ class BaseTestCase(APITestCase):
 
     @property
     def create_category(self):
-        category = Category(
-            department_id=1,
-            name="Flower",
-            description="colourful!"
-        )
+        category = Category(department_id=1, name="Flower", description="colourful!")
         category.save()
         return category

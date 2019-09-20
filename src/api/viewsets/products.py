@@ -11,6 +11,7 @@ from api import errors
 from api.models import Category, Product, Review, ProductCategory
 from api.serializers import ProductSerializer, ReviewSerializer, SingleProductSerializer
 from api.pagination import StandardResultsPagination
+
 logger = logging.getLogger(__name__)
 
 
@@ -32,8 +33,8 @@ class RetrieveProducts(generics.GenericAPIView):
 
 
 class ProductsFilterClass(filters.FilterSet):
-    name = filters.CharFilter(field_name='name', lookup_expr='exact')
-    description = filters.CharFilter(field_name='description', lookup_expr='icontains')
+    name = filters.CharFilter(field_name="name", lookup_expr="exact")
+    description = filters.CharFilter(field_name="description", lookup_expr="icontains")
 
 
 class SearchProducts(generics.ListAPIView):
@@ -45,7 +46,7 @@ class SearchProducts(generics.ListAPIView):
 
     filter_class = ProductsFilterClass
     filter_backends = (DjangoFilterBackend, SearchFilter)
-    search_fields = ('name', 'description')
+    search_fields = ("name", "description")
 
 
 class GetSingleProduct(generics.GenericAPIView):
@@ -63,12 +64,10 @@ class GetSingleProduct(generics.GenericAPIView):
             return errors.handle(errors.PRO_01)
 
     def truncate_description(self, request, data):
-        description_length = request.data.get('product_id', None)
+        description_length = request.data.get("product_id", None)
         if not description_length:
             description_length = 200
-        description = {
-            "description": data['description'][:description_length] + '...'
-        }
+        description = {"description": data["description"][:description_length] + "..."}
         _data = data
         _data.update(description)
         return _data
@@ -109,7 +108,9 @@ class GetProductsInDepartment(generics.GenericAPIView):
 
         _products_list = list()
         for category in _categories:
-            prod_category = ProductCategory.objects.filter(category_id=category.category_id)
+            prod_category = ProductCategory.objects.filter(
+                category_id=category.category_id
+            )
             for item in prod_category:
                 product = Product.objects.get(product_id=item.product_id)
                 _products_list.append(product)
@@ -127,23 +128,22 @@ class PostProductReview(generics.GenericAPIView):
 
     def post(self, request):
         try:
-            product_id = request.data.get('product_id', None)
+            product_id = request.data.get("product_id", None)
             product = Product.objects.get(product_id=product_id)
             customer_id = request.user.customer_id
             review = Review()
             for field, value in request.data.items():
                 setattr(review, field, value)
-            customer_review = Review.objects.filter(customer_id=customer_id, product_id=product_id)
+            customer_review = Review.objects.filter(
+                customer_id=customer_id, product_id=product_id
+            )
             if customer_review:
                 return errors.handle(errors.USR_11)
             review.customer_id = customer_id
             review.save()
             serializer_element = ReviewSerializer(instance=review)
             holding_dict = serializer_element.data
-            return_dict = {
-                "name": product.name,
-                **holding_dict
-            }
+            return_dict = {"name": product.name, **holding_dict}
             return Response(return_dict, 201)
         except Product.DoesNotExist:
             return errors.handle(errors.PRO_01)
@@ -159,10 +159,7 @@ class GetProductReviews(generics.GenericAPIView):
             review = Review.objects.get(product_id=product_id)
             serializer_element = ReviewSerializer(instance=review)
             holding_dict = serializer_element.data
-            return_dict = {
-                "name": product.name,
-                **holding_dict
-            }
+            return_dict = {"name": product.name, **holding_dict}
             return Response(return_dict, 201)
         except Product.DoesNotExist:
             return errors.handle(errors.PRO_01)

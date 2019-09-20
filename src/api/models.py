@@ -153,7 +153,7 @@ class Orders(models.Model):
     comments = models.CharField(max_length=255, blank=True, null=True)
     customer_id = models.IntegerField(blank=True, null=True)
     auth_code = models.CharField(max_length=50, blank=True, null=True)
-    reference    = models.CharField(max_length=50, blank=True, null=True)
+    reference = models.CharField(max_length=50, blank=True, null=True)
     shipping_id = models.IntegerField(blank=True, null=True)
     tax_id = models.IntegerField(blank=True, null=True)
 

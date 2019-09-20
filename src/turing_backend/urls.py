@@ -29,14 +29,15 @@ schema_view = get_schema_view(
     ),
     public=True,
     permission_classes=(permissions.AllowAny,),
-    authentication_classes=()
+    authentication_classes=(),
 )
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path(r'docs/', schema_view.with_ui(
-      'swagger',
-      cache_timeout=0), name='Turing ECommerce UI'
-       ),
+    path(
+        r"docs/",
+        schema_view.with_ui("swagger", cache_timeout=0),
+        name="Turing ECommerce UI",
+    ),
     path("", include("api.urls")),
 ]

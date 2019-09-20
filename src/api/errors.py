@@ -68,10 +68,16 @@ USR_09 = Error(
     field="shipping_region_id",
 )
 USR_10 = Error(code="USR_10", message="You must login first", _status=400)
-USR_11 = Error(code="USR_11", message="You've already posted a review for this product!", _status=400)
+USR_11 = Error(
+    code="USR_11",
+    message="You've already posted a review for this product!",
+    _status=400,
+)
 # Category's Errors
 CAT_01 = Error(code="CAT_01", message="Don't exist category with this ID", _status=404)
-CAT_02 = Error(code="CAT_02", message="Don't exist category with this department_id", _status=404)
+CAT_02 = Error(
+    code="CAT_02", message="Don't exist category with this department_id", _status=404
+)
 
 # Department's Errors
 DEP_01 = Error(code="DEP_01", message="The ID is not a number", _status=400, field="id")
@@ -81,7 +87,11 @@ DEP_02 = Error(
 
 # Product's Errors
 PRO_01 = Error(code="PRO_01", message="Don't exist product with this ID", _status=404)
-PRO_02 = Error(code="PRO_02", message="Don't exist productCategory with this product_id", _status=404)
+PRO_02 = Error(
+    code="PRO_02",
+    message="Don't exist productCategory with this product_id",
+    _status=404,
+)
 
 # Order's Errors
 ORD_01 = Error(code="ORD_01", message="Don't exist order with this ID", _status=404)
@@ -112,29 +122,32 @@ CRT_03 = Error(
     code="CRT_03", message="Don't exist cartItem with this item_id", _status=404
 )
 
-#shipping errors
+# shipping errors
 
 SHP_01 = Error(
     code="SHP_01", message="Don't exist shippingDetail with this id", _status=404
 )
 SHP_02 = Error(
-    code="SHP_02", message="Don't exist shipping with this shipping_region_id", _status=404
+    code="SHP_02",
+    message="Don't exist shipping with this shipping_region_id",
+    _status=404,
 )
 
-#tax errors
+# tax errors
 
-TAX_01 = Error(
-    code="TAX_01", message="Don't exist tax with this tax_id", _status=404
-)
+TAX_01 = Error(code="TAX_01", message="Don't exist tax with this tax_id", _status=404)
 
-#attribute errors
+# attribute errors
 
 ATR_01 = Error(
     code="ATR_01", message="Don't exist attribute with this attribute_id", _status=404
 )
 ATR_02 = Error(
-    code="ATR_02", message="Don't exist attributeValue with this attribute_id", _status=404
+    code="ATR_02",
+    message="Don't exist attributeValue with this attribute_id",
+    _status=404,
 )
+
 
 def handle(error: Error):
     error_response = {

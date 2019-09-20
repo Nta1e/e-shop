@@ -17,7 +17,10 @@ class Migration(migrations.Migration):
                 ("attribute_id", models.AutoField(primary_key=True, serialize=False)),
                 ("name", models.CharField(max_length=100)),
             ],
-            options={"db_table": "attribute", "managed": os.getenv('DB_MANAGED', False)},
+            options={
+                "db_table": "attribute",
+                "managed": os.getenv("DB_MANAGED", False),
+            },
         ),
         migrations.CreateModel(
             name="AttributeValue",
@@ -29,7 +32,10 @@ class Migration(migrations.Migration):
                 ("attribute_id", models.IntegerField()),
                 ("value", models.CharField(max_length=100)),
             ],
-            options={"db_table": "attribute_value", "managed": os.getenv('DB_MANAGED', False)},
+            options={
+                "db_table": "attribute_value",
+                "managed": os.getenv("DB_MANAGED", False),
+            },
         ),
         migrations.CreateModel(
             name="Audit",
@@ -40,7 +46,7 @@ class Migration(migrations.Migration):
                 ("message", models.TextField()),
                 ("code", models.IntegerField()),
             ],
-            options={"db_table": "audit", "managed": os.getenv('DB_MANAGED', False)},
+            options={"db_table": "audit", "managed": os.getenv("DB_MANAGED", False)},
         ),
         migrations.CreateModel(
             name="Category",
@@ -53,7 +59,7 @@ class Migration(migrations.Migration):
                     models.CharField(blank=True, max_length=1000, null=True),
                 ),
             ],
-            options={"db_table": "category", "managed": os.getenv('DB_MANAGED', False)},
+            options={"db_table": "category", "managed": os.getenv("DB_MANAGED", False)},
         ),
         migrations.CreateModel(
             name="Customer",
@@ -77,7 +83,7 @@ class Migration(migrations.Migration):
                 ("eve_phone", models.CharField(blank=True, max_length=100, null=True)),
                 ("mob_phone", models.CharField(blank=True, max_length=100, null=True)),
             ],
-            options={"db_table": "customer", "managed": os.getenv('DB_MANAGED', False)},
+            options={"db_table": "customer", "managed": os.getenv("DB_MANAGED", False)},
         ),
         migrations.CreateModel(
             name="Department",
@@ -89,7 +95,10 @@ class Migration(migrations.Migration):
                     models.CharField(blank=True, max_length=1000, null=True),
                 ),
             ],
-            options={"db_table": "department", "managed": os.getenv('DB_MANAGED', False)},
+            options={
+                "db_table": "department",
+                "managed": os.getenv("DB_MANAGED", False),
+            },
         ),
         migrations.CreateModel(
             name="OrderDetail",
@@ -102,7 +111,10 @@ class Migration(migrations.Migration):
                 ("quantity", models.IntegerField()),
                 ("unit_cost", models.DecimalField(decimal_places=2, max_digits=10)),
             ],
-            options={"db_table": "order_detail", "managed": os.getenv('DB_MANAGED', False)},
+            options={
+                "db_table": "order_detail",
+                "managed": os.getenv("DB_MANAGED", False),
+            },
         ),
         migrations.CreateModel(
             name="Orders",
@@ -119,7 +131,7 @@ class Migration(migrations.Migration):
                 ("shipping_id", models.IntegerField(blank=True, null=True)),
                 ("tax_id", models.IntegerField(blank=True, null=True)),
             ],
-            options={"db_table": "orders", "managed": os.getenv('DB_MANAGED', False)},
+            options={"db_table": "orders", "managed": os.getenv("DB_MANAGED", False)},
         ),
         migrations.CreateModel(
             name="Product",
@@ -137,7 +149,7 @@ class Migration(migrations.Migration):
                 ("thumbnail", models.CharField(blank=True, max_length=150, null=True)),
                 ("display", models.SmallIntegerField()),
             ],
-            options={"db_table": "product", "managed": os.getenv('DB_MANAGED', False)},
+            options={"db_table": "product", "managed": os.getenv("DB_MANAGED", False)},
         ),
         migrations.CreateModel(
             name="ProductAttribute",
@@ -145,7 +157,10 @@ class Migration(migrations.Migration):
                 ("product_id", models.IntegerField(primary_key=True, serialize=False)),
                 ("attribute_value_id", models.IntegerField()),
             ],
-            options={"db_table": "product_attribute", "managed": os.getenv('DB_MANAGED', False)},
+            options={
+                "db_table": "product_attribute",
+                "managed": os.getenv("DB_MANAGED", False),
+            },
         ),
         migrations.CreateModel(
             name="ProductCategory",
@@ -153,7 +168,10 @@ class Migration(migrations.Migration):
                 ("product_id", models.IntegerField(primary_key=True, serialize=False)),
                 ("category_id", models.IntegerField()),
             ],
-            options={"db_table": "product_category", "managed": os.getenv('DB_MANAGED', False)},
+            options={
+                "db_table": "product_category",
+                "managed": os.getenv("DB_MANAGED", False),
+            },
         ),
         migrations.CreateModel(
             name="Review",
@@ -165,7 +183,7 @@ class Migration(migrations.Migration):
                 ("rating", models.SmallIntegerField()),
                 ("created_on", models.DateTimeField()),
             ],
-            options={"db_table": "review", "managed": os.getenv('DB_MANAGED', False)},
+            options={"db_table": "review", "managed": os.getenv("DB_MANAGED", False)},
         ),
         migrations.CreateModel(
             name="Shipping",
@@ -175,7 +193,7 @@ class Migration(migrations.Migration):
                 ("shipping_cost", models.DecimalField(decimal_places=2, max_digits=10)),
                 ("shipping_region_id", models.IntegerField()),
             ],
-            options={"db_table": "shipping", "managed": os.getenv('DB_MANAGED', False)},
+            options={"db_table": "shipping", "managed": os.getenv("DB_MANAGED", False)},
         ),
         migrations.CreateModel(
             name="ShippingRegion",
@@ -186,7 +204,10 @@ class Migration(migrations.Migration):
                 ),
                 ("shipping_region", models.CharField(max_length=100)),
             ],
-            options={"db_table": "shipping_region", "managed": os.getenv('DB_MANAGED', False)},
+            options={
+                "db_table": "shipping_region",
+                "managed": os.getenv("DB_MANAGED", False),
+            },
         ),
         migrations.CreateModel(
             name="ShoppingCart",
@@ -199,7 +220,10 @@ class Migration(migrations.Migration):
                 ("buy_now", models.IntegerField()),
                 ("added_on", models.DateTimeField()),
             ],
-            options={"db_table": "shopping_cart", "managed": os.getenv('DB_MANAGED', False)},
+            options={
+                "db_table": "shopping_cart",
+                "managed": os.getenv("DB_MANAGED", False),
+            },
         ),
         migrations.CreateModel(
             name="Tax",
@@ -211,6 +235,6 @@ class Migration(migrations.Migration):
                     models.DecimalField(decimal_places=2, max_digits=10),
                 ),
             ],
-            options={"db_table": "tax", "managed": os.getenv('DB_MANAGED', False)},
+            options={"db_table": "tax", "managed": os.getenv("DB_MANAGED", False)},
         ),
     ]
