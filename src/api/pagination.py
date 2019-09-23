@@ -5,15 +5,15 @@ from rest_framework.response import Response
 
 
 class StandardResultsPagination(PageNumberPagination):
+    page_size = 20
+    page_size_query_param = 'limit'
+    page_query_param = 'page'
+
     def paginate_queryset(self, queryset, request, view=None):
-        self.page_size = request.data.get("limit", None)
-        if not self.page_size:
-            self.page_size = 20
-        self.description_length = request.data.get("description_length", None)
-        paginator = self.django_paginator_class(queryset, self.page_size)
-        page_number = request.data.get("page", None)
-        if not page_number:
-            page_number = 1
+        self.description_length = request.query_params.get('description_length', 200)
+        page_size = self.get_page_size(request)
+        paginator = self.django_paginator_class(queryset, page_size)
+        page_number = request.query_params.get(self.page_query_param, 1)
         try:
             self.page = paginator.page(page_number)
         except InvalidPage as error:
@@ -40,7 +40,7 @@ class StandardResultsPagination(PageNumberPagination):
         )
 
     def truncate_description(self, result):
-        description_length = self.description_length
+        description_length = int(self.description_length)
         if not description_length:
             description_length = 200
         description = {
