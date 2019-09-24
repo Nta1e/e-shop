@@ -83,6 +83,16 @@ def handle_error(function):
 
 @handle_error
 def create(amount, order_id, currency="usd", source="tok_mastercard", description=None):
+    """
+    creates a stripe charge object
+
+    :param amount:
+    :param order_id:
+    :param currency:
+    :param source:
+    :param description:
+    :return: stripe object
+    """
     stripe.api_key = settings.STRIPE_API_KEY
 
     response = stripe.Charge.create(

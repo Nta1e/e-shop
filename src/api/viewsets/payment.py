@@ -9,6 +9,14 @@ class StripePayment(generics.GenericAPIView):
     permission_classes = (IsAuthenticated,)
 
     def post(self, request):
+        """
+        make a payment to stripe. The stripe token will be generated from the customer credit
+        card using stripe.js in the frontend. For testing purposes i generated a test token
+        from a dummy credit card.
+
+        :param request:
+        :return: stripe object
+        """
         test_token = "tok_1FKU4ECHn72Ds0uhBbxsduBW"
         create_webhook()
         response = create(

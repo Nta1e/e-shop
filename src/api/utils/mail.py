@@ -14,6 +14,10 @@ class SendMail:
         self.subject = subject
 
     def _compose_mail(self):
+        """
+        composes an email based upon args passed to the constructor
+        :return: mail object
+        """
         html_body = render_to_string(self.template, self.context)
         subject = self.subject
         to_email = self.to_email
@@ -24,6 +28,10 @@ class SendMail:
         return message
 
     def send(self):
+        """
+        Sends the composed mail
+        :return: None
+        """
         mail = self._compose_mail()
         mail.send(fail_silently=False)
         return

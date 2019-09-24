@@ -10,6 +10,14 @@ class StandardResultsPagination(PageNumberPagination):
     page_query_param = 'page'
 
     def paginate_queryset(self, queryset, request, view=None):
+        """
+        paginates the queryset
+
+        :param queryset:
+        :param request:
+        :param view:
+        :return: list
+        """
         self.description_length = request.query_params.get('description_length', 200)
         page_size = self.get_page_size(request)
         paginator = self.django_paginator_class(queryset, page_size)
@@ -26,6 +34,12 @@ class StandardResultsPagination(PageNumberPagination):
         return list(self.page)
 
     def get_paginated_response(self, data):
+        """
+        returns a paginated response
+
+        :param data:
+        :return: paginated response
+        """
         _data = map(self.truncate_description, data)
         return Response(
             {
@@ -40,6 +54,12 @@ class StandardResultsPagination(PageNumberPagination):
         )
 
     def truncate_description(self, result):
+        """
+        truncate the description to the specified length
+
+        :param result:
+        :return: updated result dict
+        """
         description_length = int(self.description_length)
         if not description_length:
             description_length = 200
