@@ -1,4 +1,4 @@
-# Turing Back End Challenge
+
 [![Build Status](https://travis-ci.com/Nta1e/Turing_backend_challenge.svg?token=QAfgj3KstfQjsmX6MRX8&branch=dev)](https://travis-ci.com/Nta1e/Turing_backend_challenge)
 
 
