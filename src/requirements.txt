@@ -28,7 +28,7 @@ MarkupSafe==1.1.1
 mysqlclient==1.4.4
 oauth2-provider==0.0
 oauthlib==3.0.1
-Pygments==2.4.2
+Pygments==2.7.4
 PyJWT==1.7.1
 python-dotenv==0.10.3
 python-memcached==1.59
